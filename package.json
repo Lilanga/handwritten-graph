@@ -1,10 +1,12 @@
 {
-  "name": "handwritten-graph",
-  "version": "1.0.0",
+  "name": "handwritten-linegraph",
+  "version": "0.1.0",
   "description": "A simple library to create handwritten-style graphs using D3.js",
-  "main": "index.js",
+  "main": "dist/handwritten-graph.js",
+  "module": "dist/handwritten-graph.js",
   "scripts": {
-    "build": "cross-env NODE_ENV=production webpack --mode production"
+    "build": "cross-env NODE_ENV=production webpack --mode production",
+    "prepare": "npm run build"
   },
   "dependencies": {
     "d3": "^7.0.0"
@@ -26,9 +28,17 @@
   "keywords": [
     "d3",
     "handwritten",
+    "line-graph",
     "graph",
     "visualization"
   ],
+  "files": [
+    "dist/handwritten-graph.js"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Lilanga/handwritten-graph.git"
+  },
   "author": "Lilanga Gamage",
   "license": "MIT"
 }

@@ -1,0 +1,8 @@
+# Ignore everything except the final dist folder
+src/
+node_modules/
+*.config.js
+tests/
+examples/
+README.md
+.git
