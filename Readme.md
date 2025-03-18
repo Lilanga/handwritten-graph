@@ -4,6 +4,10 @@
 
 A simple JavaScript library for creating handwritten-style line graphs using D3.js. This library provides an easy-to-use API to generate fun, informal-looking graphs with customizable colors, labels, and data points.
 
+Here’s an example of a graph generated with this library:
+
+![Example Handwritten Graph](docs/example.png)
+
 ## Installation
 
 Install via npm:
