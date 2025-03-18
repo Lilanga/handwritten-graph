@@ -16,7 +16,11 @@ Install via npm:
 npm install handwritten-linegraph
 ```
 
-Alternatively, include the compiled JavaScript file in your project.
+Alternatively, you can use the library via CDN.
+
+```html
+<script src="https://unpkg.com/handwritten-linegraph@0.1.1/dist/handwritten-graph.js"></script>
+```
 
 ### Prerequisites
 
