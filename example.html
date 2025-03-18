@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Handwritten Graph Example</title>
+  </head>
+  <body>
+    <div id="graph-container"></div>
+    <script src="dist/handwritten-graph.js"></script>
+    <script>
+      const data = {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+        datasets: [
+          {
+            label: "My First Dataset",
+            data: [65, 59, 80, 81, 56, 55, 40],
+            lineColor: "rgb(75, 192, 192)",
+            jitter: 1.1,
+          },
+          {
+            label: "My Second Dataset",
+            data: [60, 79, 88, 68, 50, 20, 30],
+            lineColor: "rgb(150, 102, 92)",
+            jitter: 1.1,
+          },
+          {
+            label: "My third Dataset",
+            data: [10, 105, 72, 50, 30, 28, 38],
+            lineColor: "rgb(70, 92, 82)",
+            jitter: 1.1,
+          },
+        ],
+      };
+
+      HandwrittenGraph.createGraph("#graph-container", data);
+    </script>
+  </body>
+</html>

@@ -1,0 +1,16 @@
+@font-face {
+  font-family: 'xkcd';
+  src: url('../assets/Humor-Sans.ttf');
+}
+
+body {
+  font-family: 'xkcd', sans-serif;
+  font-size: 14px;
+}
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}
