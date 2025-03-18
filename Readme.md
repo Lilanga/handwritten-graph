@@ -9,7 +9,7 @@ A simple JavaScript library for creating handwritten-style line graphs using D3.
 Install via npm:
 
 ```sh
-npm install handwritten-graph
+npm install handwritten-linegraph
 ```
 
 Alternatively, include the compiled JavaScript file in your project.
