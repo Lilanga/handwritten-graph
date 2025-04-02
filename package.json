@@ -1,7 +1,7 @@
 {
   "name": "handwritten-linegraph",
   "version": "0.1.2",
-  "description": "A simple library to create handwritten-style graphs using D3.js",
+  "description": "A simple library to create handwritten-style line graphs and pie charts using D3.js",
   "main": "dist/handwritten-graph.js",
   "module": "dist/handwritten-graph.js",
   "scripts": {

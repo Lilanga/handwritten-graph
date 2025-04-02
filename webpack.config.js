@@ -9,6 +9,7 @@ module.exports = {
     path: path.resolve(__dirname, 'dist'),
     library: 'HandwrittenGraph',
     libraryTarget: 'umd',
+    globalObject: 'this',
   },
   module: {
     rules: [

@@ -132,3 +132,41 @@ export function createXkcdFilter(defs) {
         .attr('yChannelSelector', 'G')
         .attr('in', 'SourceGraphic');
 }
+
+/**
+ * Create a hand-drawn circle SVG path
+ * @param {Number} cx - Center X position
+ * @param {Number} cy - Center Y position
+ * @param {Number} radius - Circle radius
+ * @param {Number} jitter - Amount of jitter to add
+ * @returns {String} The hand-drawn circle path string
+ */
+export function createHandDrawnCircle(cx, cy, radius, jitter = 2) {
+    const numPoints = 40; // Points around the circle
+    let points = [];
+
+    // Generate points around the circle with jitter
+    for (let i = 0; i < numPoints; i++) {
+        const angle = (i / numPoints) * 2 * Math.PI;
+        const jitterAmount = (Math.random() - 0.5) * jitter;
+        const adjustedRadius = radius + jitterAmount;
+        
+        const point = {
+            x: cx + Math.cos(angle) * adjustedRadius,
+            y: cy + Math.sin(angle) * adjustedRadius
+        };
+        
+        points.push(point);
+    }
+
+    // Close the path
+    points.push(points[0]);
+
+    // Create a path from the points
+    const pathGenerator = d3.line()
+        .x(d => d.x)
+        .y(d => d.y)
+        .curve(d3.curveBasisClosed);
+
+    return pathGenerator(points);
+}
