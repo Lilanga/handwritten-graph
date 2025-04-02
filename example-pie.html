@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Handwritten Graph Library Examples</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 20px;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .chart-container {
+        margin-bottom: 40px;
+        padding: 20px;
+        border: 1px solid #eee;
+        border-radius: 8px;
+      }
+      h1,
+      h2 {
+        font-family: "xkcd", sans-serif;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Handwritten Graph Library Examples</h1>
+
+      <div class="chart-container">
+        <h2>Line Graph Example</h2>
+        <div id="line-graph-container"></div>
+      </div>
+
+      <div class="chart-container">
+        <h2>Pie Chart Example</h2>
+        <div id="pie-chart-container"></div>
+      </div>
+
+      <div class="chart-container">
+        <h2>Donut Chart Example</h2>
+        <div id="donut-chart-container"></div>
+      </div>
+    </div>
+
+    <script src="dist/handwritten-graph.js"></script>
+    <script>
+      // Line Graph Example
+      const lineData = {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+        datasets: [
+          {
+            label: "Revenue",
+            data: [65, 59, 80, 81, 56, 55, 40],
+            lineColor: "rgb(75, 192, 192)",
+            jitter: 1.1,
+          },
+          {
+            label: "Expenses",
+            data: [30, 45, 51, 60, 48, 40, 35],
+            lineColor: "rgb(255, 99, 132)",
+            jitter: 1.1,
+          },
+          {
+            label: "Profit",
+            data: [35, 14, 29, 21, 8, 15, 5],
+            lineColor: "rgb(54, 162, 235)",
+            jitter: 1.1,
+          },
+        ],
+      };
+
+      HandwrittenGraph.createGraph("#line-graph-container", lineData);
+
+      // Pie Chart Example
+      const pieData = [
+        { label: "Marketing", value: 30, color: "#FF6384" },
+        { label: "Development", value: 45, color: "#36A2EB" },
+        { label: "Research", value: 15, color: "#FFCE56" },
+        { label: "Administration", value: 10, color: "#4BC0C0" },
+      ];
+
+      HandwrittenGraph.createPieChart("#pie-chart-container", pieData);
+
+      // Donut Chart Example
+      const donutData = [
+        { label: "Desktop", value: 45, color: "#FF6384" },
+        { label: "Mobile", value: 35, color: "#36A2EB" },
+        { label: "Tablet", value: 20, color: "#FFCE56" },
+      ];
+
+      HandwrittenGraph.createPieChart("#donut-chart-container", donutData, {
+        innerRadius: 80, // Makes it a donut chart
+        handDrawnJitter: 1.5, // Slightly less jitter for cleaner look
+      });
+    </script>
+  </body>
+</html>
