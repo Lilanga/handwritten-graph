@@ -7,19 +7,20 @@ import * as d3 from 'd3';
 import './styles/graph.scss';
 import XkcdTooltip from './XkcdTooltip';
 import { createHandDrawnRect, createXkcdFilter } from './handDrawnUtils';
+import { createScribblePatternSet, createOilPaintPatternSet } from './scribbleFills';
 
 // Default configuration
 const defaultConfig = {
-    width: 500,
-    height: 500,
-    margin: { top: 10, right: 10, bottom: 10, left: 10 },
-    innerRadius: 0, // Set > 0 for a donut chart
+    width: 600,           // Increased default width to accommodate legend
+    height: 400,          // Default height
+    margin: { top: 20, right: 180, bottom: 20, left: 20 }, // Right margin increased for legend
+    innerRadius: 0,       // Set > 0 for a donut chart
     padAngle: 0.02,
     cornerRadius: 3,
-    jitter: 1.5, // Jitter amount for hand-drawn effect
-    fontFamily: 'xkcd', // Default font family
+    jitter: 1.5,          // Jitter amount for hand-drawn effect
+    fontFamily: 'xkcd',   // Default font family
     handDrawnEffect: true, // Toggle for hand-drawn effect
-    handDrawnJitter: 2, // Amount of jitter for hand-drawn effect
+    handDrawnJitter: 2,   // Amount of jitter for hand-drawn effect
     strokeLinecap: 'round', // Rounded line caps for hand-drawn effect
     strokeLinejoin: 'round', // Rounded line joins for hand-drawn effect
     tooltipBgColor: '#fff', // Tooltip background color
@@ -27,9 +28,12 @@ const defaultConfig = {
     tooltipBorderColor: '#333', // Tooltip border color
     tooltipBorderWidth: 2, // Tooltip border width
     tooltipBorderRadius: 5, // Tooltip border radius
-    tooltipOpacity: 0.9, // Tooltip background opacity
-    legendBorder: false, // Whether to show border around legend
-    valueFormat: d => d3.format('.1f')(d) // Format for values
+    tooltipOpacity: 0.9,  // Tooltip background opacity
+    legendBorder: true,   // Show border around legend by default
+    valueFormat: d => d3.format('.1f')(d), // Format for values
+    useScribbleFill: true, // Use scribble fill patterns instead of solid colors
+    fillStyle: 'directional', // Type of fill: 'directional', 'oilpaint'
+    adaptiveText: true    // Automatically adapt text size to fit available space
 };
 
 /**
@@ -90,10 +94,10 @@ export function createPieChart(selector, data, config = {}) {
         jitter, fontFamily, handDrawnEffect, handDrawnJitter,
         strokeLinecap, strokeLinejoin, tooltipBgColor, tooltipTextColor,
         tooltipBorderColor, tooltipBorderWidth, tooltipBorderRadius,
-        tooltipOpacity, legendBorder, valueFormat
+        tooltipOpacity, legendBorder, valueFormat, useScribbleFill, fillStyle
     } = settings;
 
-    // Calculate radius
+    // Calculate radius based on available space
     const radius = Math.min(width - margin.left - margin.right, height - margin.top - margin.bottom) / 2;
 
     // Create SVG
@@ -102,7 +106,7 @@ export function createPieChart(selector, data, config = {}) {
         .attr('width', width)
         .attr('height', height)
         .append('g')
-        .attr('transform', `translate(${width / 2}, ${height / 2})`);
+        .attr('transform', `translate(${width / 2 - margin.right / 2 + margin.left / 2}, ${height / 2})`);
 
     // Create SVG defs for filters
     const defs = svg.append('defs');
@@ -128,6 +132,20 @@ export function createPieChart(selector, data, config = {}) {
         color: d.color || color(i)
     }));
 
+    // Create scribble pattern fills if enabled
+    let fillPatterns = [];
+    if (useScribbleFill) {
+        // Extract all colors
+        const colors = processedData.map(d => d.color);
+
+        // Generate pattern definitions
+        if (fillStyle === 'oilpaint') {
+            fillPatterns = createOilPaintPatternSet(defs, colors);
+        } else {
+            fillPatterns = createScribblePatternSet(defs, colors);
+        }
+    }
+
     // Create arc generator
     const arc = d3.arc()
         .innerRadius(innerRadius)
@@ -150,7 +168,13 @@ export function createPieChart(selector, data, config = {}) {
                 return arc(d);
             }
         })
-        .attr('fill', d => d.data.color)
+        .attr('fill', (d, i) => {
+            if (useScribbleFill && fillPatterns.length > 0) {
+                return fillPatterns[i % fillPatterns.length];
+            } else {
+                return d.data.color;
+            }
+        })
         .attr('stroke', 'white')
         .attr('stroke-width', 1)
         .attr('stroke-linecap', strokeLinecap)
@@ -162,13 +186,57 @@ export function createPieChart(selector, data, config = {}) {
 
     // Add Legend
     const legendGroup = svg.append('g')
-        .attr('class', 'legend')
-        .attr('transform', `translate(${radius + 20}, ${-radius})`);
+        .attr('class', 'legend');
+
+    // Calculate total height needed for the legend
+    const legendItemHeight = processedData.length > 6 ? 16 : 20; // Reduce item height for many items
+    const legendTotalHeight = processedData.length * legendItemHeight + 10;
+
+    // Calculate approximate legend width - with a more accurate character width estimate
+    // and ensuring minimum and maximum constraints
+    const avgCharWidth = 6; // Average character width in pixels
+    const maxLabelLength = d3.max(processedData, d => d.label.length);
+    const percentageWidth = 40; // Width needed for the percentage part
+    const colorSquareWidth = 25; // Width for color square and padding
+
+    const calculatedWidth = Math.min(
+        250, // Maximum width
+        Math.max(
+            100, // Minimum width
+            maxLabelLength * avgCharWidth + percentageWidth + colorSquareWidth
+        )
+    );
+
+    const legendWidth = calculatedWidth;
+
+    // Position legend to the right of the pie chart, outside the pie area
+    const legendX = radius + 30; // Position to the right of the pie with some padding
+    const legendY = -legendTotalHeight / 2; // Center vertically
+
+    // Set legend position
+    legendGroup.attr('transform', `translate(${legendX}, ${legendY})`);
 
     // Create legend background if border is enabled
     if (legendBorder) {
+        // Add generous padding to ensure the border surrounds all text completely
+        const borderPadding = {
+            left: 10,
+            right: 15,
+            top: 8,
+            bottom: 8
+        };
+
+        const borderWidth = legendWidth + borderPadding.left + borderPadding.right;
+        const borderHeight = legendTotalHeight + borderPadding.top + borderPadding.bottom;
+
         legendGroup.append('path')
-            .attr('d', createHandDrawnRect(0, 0, 150, processedData.length * 20 + 10, handDrawnJitter))
+            .attr('d', createHandDrawnRect(
+                -borderPadding.left,
+                -borderPadding.top,
+                borderWidth,
+                borderHeight,
+                handDrawnJitter
+            ))
             .attr('fill', tooltipBgColor)
             .attr('fill-opacity', tooltipOpacity)
             .attr('stroke', tooltipBorderColor)
@@ -178,27 +246,47 @@ export function createPieChart(selector, data, config = {}) {
 
     // Add legend entries
     processedData.forEach((d, i) => {
+        // Calculate legend item position
+        const itemY = i * legendItemHeight;
+
         const legendEntry = legendGroup.append('g')
-            .attr('transform', `translate(10, ${i * 20 + 15})`);
+            .attr('transform', `translate(0, ${itemY})`);
 
         legendEntry.append('rect')
             .attr('x', handDrawnEffect ? (Math.random() - 0.5) * 2 : 0)
             .attr('y', handDrawnEffect ? (Math.random() - 0.5) * 2 : 0)
             .attr('width', 8)
             .attr('height', 8)
-            .attr('fill', d.color)
+            .attr('fill', useScribbleFill && fillPatterns.length > 0 ? fillPatterns[i % fillPatterns.length] : d.color)
             .attr('rx', 2)
             .attr('ry', 2)
             .attr('filter', handDrawnEffect ? 'url(#xkcdify)' : null);
 
-        legendEntry.append('text')
+        // Calculate maximum label length based on available width
+        const maxChars = Math.max(10, Math.min(30, Math.floor((legendWidth - 50) / 6)));
+
+        // Truncate long labels if necessary
+        let label = d.label;
+        if (label.length > maxChars) {
+            label = label.substring(0, maxChars - 3) + '...';
+        }
+
+        // Format the percentage
+        const percentage = ((d.value / total) * 100).toFixed(1);
+        const displayText = `${label} (${percentage}%)`;
+
+        // Add the text with adaptive font size if necessary
+        const textElement = legendEntry.append('text')
             .attr('x', 15 + (handDrawnEffect ? (Math.random() - 0.5) * 2 : 0))
             .attr('y', 8 + (handDrawnEffect ? (Math.random() - 0.5) * 2 : 0))
-            .text(`${d.label} (${((d.value / total) * 100).toFixed(1)}%)`)
-            .style('font-size', '14px')
+            .text(displayText)
             .style('font-family', fontFamily)
             .style('fill', tooltipTextColor)
             .attr('alignment-baseline', 'middle');
+
+        // Set font size - smaller for charts with limited space or many items
+        const fontSize = processedData.length > 6 || legendWidth < 120 ? 12 : 14;
+        textElement.style('font-size', `${fontSize}px`);
     });
 
     // Create tooltip instance (initially hidden)
