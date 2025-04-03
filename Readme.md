@@ -118,8 +118,7 @@ HandwrittenGraph.createPieChart("#oilpaint-pie-chart", pieData, {
 | fontFamily | String | 'xkcd' | Font family for text elements |
 | handDrawnEffect | Boolean | true | Enable/disable hand-drawn styling |
 | legendBorder | Boolean | false | Show border around legend |
-
-Jitter | Number | 2 | Amount of jitter for hand-drawn effect |
+| Jitter | Number | 2 | Amount of jitter for hand-drawn effect |
 | valueFormat | Function | d3.format('.1f') | Format function for values in tooltip |
 
 ## Browser Support
