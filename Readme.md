@@ -2,130 +2,129 @@
 
 ## Overview
 
-A simple JavaScript library for creating handwritten-style line graphs using D3.js. This library provides an easy-to-use API to generate fun, informal-looking graphs with customizable colors, labels, and data points.
+A simple JavaScript library to create hand-drawn style charts inspired by comics and sketches. Built with D3.js, this library provides an easy-to-use API to generate fun, informal-looking graphs with customizable colors, labels, and data points.
 
-Here’s an example of a graph generated with this library:
+### Example
 
-![Example Handwritten Graph](docs/example.png)
+Here’s some example of a graph generated with this library:
+
+#### Line charts
+
+![Example Handwritten Graph](docs/line-min.png)
+
+#### Pie charts
+
+![Example Handwritten Graph](docs/pie-min.png)
+
+## Features
+
+- Hand-drawn/sketched visual style
+- Line graphs with multi-series support
+- Pie charts with interactive segments
+- Donut chart option
+- Directional scribble and oil paint texture fill patterns
+- Tooltips with hover effects
+- Legend customization
+- Configurable hand-drawn effect
 
 ## Installation
 
 Install via npm:
 
-```sh
-npm install handwritten-linegraph
+```bash
+npm install handwritten-graphs
 ```
 
 Alternatively, you can use the library via CDN.
 
 ```html
-<script src="https://unpkg.com/handwritten-linegraph@0.1.1/dist/handwritten-graph.js"></script>
+<script src="https://unpkg.com/handwritten-linegraph@0.1.3/dist/handwritten-graph.js"></script>
 ```
-
-### Prerequisites
-
-Make sure you have Node.js and npm installed before proceeding.
 
 ## Usage
 
-### Import and Initialize
+### Line Graph
 
 ```javascript
-import { createGraph } from 'handwritten-graph';
-
-const data = {
-  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-  datasets: [{
-    label: 'Sales',
-    data: [65, 59, 80, 81, 56, 55, 40],
-    lineColor: 'rgb(75, 192, 192)',
-    pointColor: 'rgb(75, 192, 192)',
-    pointRadius: 5,
-    jitter: 0.1
-  }]
+// Data format for line graphs
+const lineData = {
+  labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+  datasets: [
+    {
+      label: "Revenue",
+      data: [65, 59, 80, 81, 56, 55, 40],
+      lineColor: "rgb(75, 192, 192)"
+    },
+    {
+      label: "Expenses",
+      data: [30, 45, 51, 60, 48, 40, 35],
+      lineColor: "rgb(255, 99, 132)"
+    }
+  ]
 };
 
-createGraph('#graph-container', data);
-```
-
-Alternatively, include it in an HTML file:
-
-```html
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Handwritten Graph Example</title>
-</head>
-<body>
-    <div id="graph-container"></div>
-    <script src="dist/bundle.js"></script>
-    <script>
-        const data = {
-            labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-            datasets: [{
-                label: 'Sales',
-                data: [65, 59, 80, 81, 56, 55, 40],
-                lineColor: 'rgb(75, 192, 192)',
-                pointColor: 'rgb(75, 192, 192)',
-                pointRadius: 5,
-                jitter: 0.1
-            }]
-        };
-        HandwrittenGraph.createGraph('#graph-container', data);
-    </script>
-</body>
-</html>
-```
-
-## API Methods
-
-### `createGraph(selector, data, config)`
-
-Creates a handwritten-style line graph inside the specified container.
-
-#### Parameters
-
-- `selector` (**string**) - A CSS selector for the container where the graph should be created.
-- `data` (**object**) - The dataset used to draw the graph.
-- `config` (**object**, optional) - Additional configuration options for the graph.
-
-#### Updated Data Structure
-
-```javascript
-const data = {
-  labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
-  datasets: [{
-    label: 'Sales',
-    data: [65, 59, 80, 81, 56, 55, 40],
-    lineColor: 'rgb(75, 192, 192)',
-    pointColor: 'rgb(75, 192, 192)',
-    pointRadius: 5,
-    jitter: 0.1
-  }]
-};
-```
-
-#### Config Options
-
-| Option       | Type      | Default | Description |
-|-------------|----------|---------|-------------|
-| `width`     | number   | `960`   | Width of the graph in pixels. |
-| `height`    | number   | `500`   | Height of the graph in pixels. |
-| `margin`    | object   | `{ top: 10, right: 10, bottom: 40, left: 50 }` | Margins around the graph. |
-| `jitter`    | number   | `1.9`   | Adds randomness for a hand-drawn effect. |
-| `pointRadius` | number  | `4`   | Radius of data point dots. |
-
-#### Example
-
-```javascript
-createGraph('#graph-container', data, {
+// Create a line graph
+HandwrittenGraph.createGraph("#graph-container", lineData, {
   width: 800,
   height: 400,
-  pointRadius: 5
+  handDrawnEffect: true
 });
 ```
+
+### Pie Chart
+
+```javascript
+// Data format for pie charts
+const pieData = [
+  { label: "Marketing", value: 30, color: "#FF6384" },
+  { label: "Development", value: 45, color: "#36A2EB" },
+  { label: "Research", value: 15, color: "#FFCE56" },
+  { label: "Administration", value: 10, color: "#4BC0C0" }
+];
+
+// Create a pie chart
+HandwrittenGraph.createPieChart("#pie-chart-container", pieData);
+
+// Create a donut chart
+HandwrittenGraph.createPieChart("#donut-chart-container", pieData, {
+  innerRadius: 80 // Setting innerRadius > 0 creates a donut chart
+});
+
+// Create a pie chart with directional scribble fills
+HandwrittenGraph.createPieChart("#scribble-pie-chart", pieData, {
+  useScribbleFill: true,
+  fillStyle: 'directional' // Use directional scribble lines
+});
+
+// Create a pie chart with oil paint texture fills (no scribble lines)
+HandwrittenGraph.createPieChart("#oilpaint-pie-chart", pieData, {
+  useScribbleFill: true,
+  fillStyle: 'oilpaint' // Use rich layered paint texture effect
+});
+```
+
+## Configuration Options
+
+### Line Graph Options
+
+| Option | Type | Default | Description |
+|--------|------|---------|-------------|
+| width | Number | 960 | Chart width in pixels |
+| height | Number | 500 | Chart height in pixels |
+| margin | Object | { top: 10, right: 10, bottom: 40, left: 50 } | Chart margins |
+| jitter | Number | 1.9 | Amount of jitter for hand-drawn effect |
+| lineColor | String | 'steelblue' | Default line color (can be overridden in dataset) |
+| pointRadius | Number | 4 | Radius of data points |
+| fontFamily | String | 'xkcd' | Font family for text elements |
+| handDrawnEffect | Boolean | true | Enable/disable hand-drawn styling |
+| legendBorder | Boolean | false | Show border around legend |
+
+Jitter | Number | 2 | Amount of jitter for hand-drawn effect |
+| valueFormat | Function | d3.format('.1f') | Format function for values in tooltip |
+
+## Browser Support
+
+This library works in all modern browsers that support SVG and ES6.
 
 ## Development
 
@@ -147,4 +146,4 @@ npm run build
 
 ## License
 
-MIT License
+MIT
