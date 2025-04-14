@@ -316,6 +316,12 @@ export function createPieChart(selector, data, config = {}) {
             text: `Percentage: ${percentage}%`
         }];
 
+        // Get mouse position relative to the chart
+        const svgNode = svg.node();
+        const svgRect = svgNode.getBoundingClientRect();
+        const mouseX = event.clientX - svgRect.left - width / 2;
+        const mouseY = event.clientY - svgRect.top - height / 2;
+
         if (!tooltip) {
             tooltip = new XkcdTooltip({
                 parent: svg,
@@ -323,8 +329,8 @@ export function createPieChart(selector, data, config = {}) {
                 items: tooltipItems,
                 position: {
                     type: 'auto',
-                    x: event.offsetX - width / 2,
-                    y: event.offsetY - height / 2
+                    x: mouseX,
+                    y: mouseY
                 },
                 unxkcdify: !handDrawnEffect,
                 backgroundColor: tooltipBgColor,
@@ -340,8 +346,8 @@ export function createPieChart(selector, data, config = {}) {
                 items: tooltipItems,
                 position: {
                     type: 'auto',
-                    x: event.offsetX - width / 2,
-                    y: event.offsetY - height / 2
+                    x: mouseX,
+                    y: mouseY
                 }
             });
             tooltip.show();
@@ -350,11 +356,17 @@ export function createPieChart(selector, data, config = {}) {
         .on('mousemove', function (event) {
             // Update tooltip position
             if (tooltip) {
+                // Get mouse position relative to the chart
+                const svgNode = svg.node();
+                const svgRect = svgNode.getBoundingClientRect();
+                const mouseX = event.clientX - svgRect.left - width / 2;
+                const mouseY = event.clientY - svgRect.top - height / 2;
+
                 tooltip.update({
                     position: {
                         type: 'auto',
-                        x: event.offsetX - width / 2,
-                        y: event.offsetY - height / 2
+                        x: mouseX,
+                        y: mouseY
                     }
                 });
             }

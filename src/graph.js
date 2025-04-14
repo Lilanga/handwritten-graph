@@ -242,7 +242,7 @@ export function createGraph(selector, data, config = {}) {
   // Create tooltip instance (initially hidden)
   let tooltip = null;
 
-  // Add hover events to the hover areas
+// Add hover events to the hover areas
   hoverAreas.selectAll('.hover-area')
     .on('mouseover', function (event) {
       const index = parseInt(d3.select(this).attr('data-index'));
@@ -264,6 +264,12 @@ export function createGraph(selector, data, config = {}) {
         text: `${dataset.label}: ${dataset.data[index]}`
       }));
 
+      // Get the correct mouse position relative to the chart
+      const svgNode = svg.node();
+      const svgRect = svgNode.getBoundingClientRect();
+      const mouseX = event.clientX - svgRect.left - margin.left;
+      const mouseY = event.clientY - svgRect.top - margin.top;
+
       // Create tooltip if it doesn't exist, otherwise update it
       if (!tooltip) {
         tooltip = new XkcdTooltip({
@@ -272,8 +278,8 @@ export function createGraph(selector, data, config = {}) {
           items: tooltipItems,
           position: {
             type: 'auto',
-            x: event.pageX - margin.left,
-            y: event.pageY - margin.top - 10
+            x: mouseX,
+            y: mouseY
           },
           unxkcdify: !handDrawnEffect,
           backgroundColor: tooltipBgColor,
@@ -289,8 +295,8 @@ export function createGraph(selector, data, config = {}) {
           items: tooltipItems,
           position: {
             type: 'auto',
-            x: event.pageX - margin.left,
-            y: event.pageY - margin.top - 10
+            x: mouseX,
+            y: mouseY
           }
         });
         tooltip.show();
@@ -310,11 +316,17 @@ export function createGraph(selector, data, config = {}) {
     .on('mousemove', function (event) {
       // Update tooltip position to follow mouse
       if (tooltip) {
+        // Get mouse position relative to the chart
+        const svgNode = svg.node();
+        const svgRect = svgNode.getBoundingClientRect();
+        const mouseX = event.clientX - svgRect.left - margin.left;
+        const mouseY = event.clientY - svgRect.top - margin.top;
+        
         tooltip.update({
           position: {
             type: 'auto',
-            x: event.pageX - margin.left,
-            y: event.pageY - margin.top - 10
+            x: mouseX,
+            y: mouseY
           }
         });
       }

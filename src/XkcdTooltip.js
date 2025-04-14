@@ -36,6 +36,9 @@ class XkcdTooltip {
         this.fontFamily = fontFamily;
         this.chartWidth = chartWidth;
         this.chartHeight = chartHeight;
+        
+        // Add safety buffer for edge detection (px)
+        this.safetyBuffer = 10;
 
         // Create SVG container
         this.svg = parent.append('svg')
@@ -201,15 +204,19 @@ class XkcdTooltip {
      */
     _getUpLeftX() {
         const tooltipWidth = this._getBackgroundWidth() + 20;
-
+        
         // Auto-adjust position based on available space
         if (this.position.type === 'auto') {
-            // If tooltip would go off the right edge
-            if (this.position.x + tooltipWidth > this.chartWidth) {
-                return this.position.x - tooltipWidth;
+            // Get the current mouse X position
+            const mouseX = this.position.x;
+            
+            // Calculate if the tooltip would extend beyond the right edge
+            if (mouseX + tooltipWidth + this.safetyBuffer > this.chartWidth) {
+                // Position to the left of the cursor
+                return mouseX - tooltipWidth - 10; // Add 10px padding
             }
             // Otherwise show to the right of the cursor
-            return this.position.x;
+            return mouseX + 10; // Add 10px padding
         }
 
         // Explicit positioning
@@ -225,17 +232,28 @@ class XkcdTooltip {
      */
     _getUpLeftY() {
         const tooltipHeight = this._getBackgroundHeight() + 20;
-
+        
         // Auto-adjust position based on available space
         if (this.position.type === 'auto') {
+            // Get the current mouse Y position
+            const mouseY = this.position.y;
+            
             // If tooltip would go off the bottom
-            if (this.position.y + tooltipHeight > this.chartHeight) {
-                return this.position.y - tooltipHeight;
+            if (mouseY + tooltipHeight + this.safetyBuffer > this.chartHeight) {
+                // Position above the cursor
+                return mouseY - tooltipHeight - 10; // Add 10px padding
             }
+            
+            // If tooltip would go off the top
+            if (mouseY - this.safetyBuffer < 0) {
+                // Position below the cursor
+                return this.safetyBuffer; // Add minimum padding from top
+            }
+            
             // Otherwise show below the cursor
-            return this.position.y;
+            return mouseY + 10; // Add 10px padding
         }
-
+        
         // Explicit positioning
         if (this.position.type === 'downLeft' || this.position.type === 'downRight') {
             return this.position.y;
