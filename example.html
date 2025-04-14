@@ -3,37 +3,313 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Handwritten Graph Example</title>
+    <title>Hand-Drawn Line Graph Examples</title>
+    <style>
+      body {
+        font-family: sans-serif;
+        margin: 0;
+        padding: 20px;
+        background-color: #f8f8f8;
+      }
+      .container {
+        max-width: 1200px;
+        margin: 0 auto;
+      }
+      .chart-container {
+        margin-bottom: 40px;
+        padding: 20px;
+        border: 1px solid #ddd;
+        border-radius: 8px;
+        background-color: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      }
+      h1,
+      h2 {
+        font-family: "xkcd", sans-serif;
+      }
+      .chart-row {
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-around;
+        margin: 0 -10px;
+      }
+      .chart-col {
+        flex: 1;
+        min-width: 300px;
+        padding: 10px;
+      }
+      p {
+        max-width: 800px;
+        line-height: 1.5;
+        margin-bottom: 20px;
+      }
+      .description {
+        font-style: italic;
+        color: #666;
+        font-size: 0.9em;
+      }
+    </style>
   </head>
   <body>
-    <div id="graph-container"></div>
+    <div class="container">
+      <h1>Hand-Drawn Line Graph Styles</h1>
+      <p>
+        These examples demonstrate the hand-drawn line graph features of our
+        library. The graphs use jittery lines, hand-drawn points, and authentic
+        sketched styling to create a unique visualization aesthetic.
+      </p>
+
+      <div class="chart-container">
+        <h2>Basic Line Graphs</h2>
+        <p class="description">
+          Single and multi-series line graphs with the default hand-drawn
+          styling
+        </p>
+        <div class="chart-row">
+          <div class="chart-col">
+            <div id="single-series"></div>
+          </div>
+          <div class="chart-col">
+            <div id="multi-series"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h2>Styling Variations</h2>
+        <p class="description">
+          Different jitter amounts and styling options affect the hand-drawn
+          feel
+        </p>
+        <div class="chart-row">
+          <div class="chart-col">
+            <div id="light-jitter"></div>
+          </div>
+          <div class="chart-col">
+            <div id="heavy-jitter"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h2>Data Density Comparison</h2>
+        <p class="description">
+          Hand-drawn styling applied to sparse vs. dense data points
+        </p>
+        <div class="chart-row">
+          <div class="chart-col">
+            <div id="sparse-data"></div>
+          </div>
+          <div class="chart-col">
+            <div id="dense-data"></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="chart-container">
+        <h2>With and Without Hand-Drawn Effect</h2>
+        <p class="description">
+          Comparison between hand-drawn styling and standard styling
+        </p>
+        <div class="chart-row">
+          <div class="chart-col">
+            <div id="hand-drawn"></div>
+          </div>
+          <div class="chart-col">
+            <div id="standard"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="dist/handwritten-graph.js"></script>
     <script>
-      const data = {
+      // Single series data
+      const singleSeriesData = {
         labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
         datasets: [
           {
-            label: "My First Dataset",
+            label: "Revenue 2024",
             data: [65, 59, 80, 81, 56, 55, 40],
             lineColor: "rgb(75, 192, 192)",
-            jitter: 1.1,
-          },
-          {
-            label: "My Second Dataset",
-            data: [60, 79, 88, 68, 50, 20, 30],
-            lineColor: "rgb(150, 102, 92)",
-            jitter: 1.1,
-          },
-          {
-            label: "My third Dataset",
-            data: [10, 105, 72, 50, 30, 28, 38],
-            lineColor: "rgb(70, 92, 82)",
-            jitter: 1.1,
           },
         ],
       };
 
-      HandwrittenGraph.createGraph("#graph-container", data);
+      // Multi-series data
+      const multiSeriesData = {
+        labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul"],
+        datasets: [
+          {
+            label: "Revenue",
+            data: [65, 59, 80, 81, 56, 55, 40],
+            lineColor: "rgb(75, 192, 192)",
+          },
+          {
+            label: "Expenses",
+            data: [28, 48, 40, 19, 36, 27, 20],
+            lineColor: "rgb(255, 99, 132)",
+          },
+          {
+            label: "Profit",
+            data: [37, 11, 40, 62, 20, 28, 20],
+            lineColor: "rgb(54, 162, 235)",
+          },
+        ],
+      };
+
+      // Seasonal data for jitter examples
+      const seasonalData = {
+        labels: [
+          "Jan",
+          "Feb",
+          "Mar",
+          "Apr",
+          "May",
+          "Jun",
+          "Jul",
+          "Aug",
+          "Sep",
+          "Oct",
+          "Nov",
+          "Dec",
+        ],
+        datasets: [
+          {
+            label: "Temperature",
+            data: [5, 7, 12, 17, 22, 28, 30, 29, 23, 17, 10, 6],
+            lineColor: "rgb(255, 159, 64)",
+          },
+          {
+            label: "Precipitation",
+            data: [90, 75, 70, 60, 50, 30, 25, 30, 60, 70, 80, 95],
+            lineColor: "rgb(54, 162, 235)",
+          },
+        ],
+      };
+
+      // Sparse data
+      const sparseData = {
+        labels: ["Q1", "Q2", "Q3", "Q4"],
+        datasets: [
+          {
+            label: "2023",
+            data: [150, 220, 180, 250],
+            lineColor: "rgb(75, 192, 192)",
+          },
+          {
+            label: "2024",
+            data: [210, 290, 230, 300],
+            lineColor: "rgb(153, 102, 255)",
+          },
+        ],
+      };
+
+      // Dense data
+      const denseData = {
+        labels: [
+          "Week 1",
+          "Week 2",
+          "Week 3",
+          "Week 4",
+          "Week 5",
+          "Week 6",
+          "Week 7",
+          "Week 8",
+          "Week 9",
+          "Week 10",
+          "Week 11",
+          "Week 12",
+          "Week 13",
+          "Week 14",
+        ],
+        datasets: [
+          {
+            label: "User Activity",
+            data: [
+              120, 150, 180, 220, 250, 280, 350, 320, 290, 320, 360, 410, 390,
+              420,
+            ],
+            lineColor: "rgb(75, 192, 192)",
+          },
+          {
+            label: "Server Load",
+            data: [
+              60, 80, 90, 100, 130, 150, 190, 210, 180, 190, 210, 230, 210, 250,
+            ],
+            lineColor: "rgb(255, 99, 132)",
+          },
+        ],
+      };
+
+      // Create basic line graphs
+      HandwrittenGraph.createGraph("#single-series", singleSeriesData, {
+        width: 500,
+        height: 300,
+        margin: { top: 20, right: 100, bottom: 40, left: 60 },
+        handDrawnEffect: true,
+        jitter: 1.5,
+      });
+
+      HandwrittenGraph.createGraph("#multi-series", multiSeriesData, {
+        width: 500,
+        height: 300,
+        margin: { top: 20, right: 120, bottom: 40, left: 60 },
+        handDrawnEffect: true,
+        jitter: 1.5,
+      });
+
+      // Create graphs with different jitter amounts
+      HandwrittenGraph.createGraph("#light-jitter", seasonalData, {
+        width: 500,
+        height: 300,
+        margin: { top: 20, right: 120, bottom: 40, left: 60 },
+        handDrawnEffect: true,
+        handDrawnJitter: 0.8, // Light jitter
+      });
+
+      HandwrittenGraph.createGraph("#heavy-jitter", seasonalData, {
+        width: 500,
+        height: 300,
+        margin: { top: 20, right: 120, bottom: 40, left: 60 },
+        handDrawnEffect: true,
+        handDrawnJitter: 3, // Heavy jitter
+      });
+
+      // Create graphs with different data densities
+      HandwrittenGraph.createGraph("#sparse-data", sparseData, {
+        width: 500,
+        height: 300,
+        margin: { top: 20, right: 120, bottom: 40, left: 60 },
+        handDrawnEffect: true,
+        jitter: 1.5,
+      });
+
+      HandwrittenGraph.createGraph("#dense-data", denseData, {
+        width: 500,
+        height: 300,
+        margin: { top: 20, right: 120, bottom: 40, left: 60 },
+        handDrawnEffect: true,
+        jitter: 1.2,
+      });
+
+      // Create comparison with and without hand-drawn effect
+      HandwrittenGraph.createGraph("#hand-drawn", multiSeriesData, {
+        width: 500,
+        height: 300,
+        margin: { top: 20, right: 120, bottom: 40, left: 60 },
+        handDrawnEffect: true,
+        jitter: 1.8,
+        legendBorder: true,
+      });
+
+      HandwrittenGraph.createGraph("#standard", multiSeriesData, {
+        width: 500,
+        height: 300,
+        margin: { top: 20, right: 120, bottom: 40, left: 60 },
+        handDrawnEffect: false, // Disable hand-drawn effect
+        legendBorder: true,
+      });
     </script>
   </body>
 </html>

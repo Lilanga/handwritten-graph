@@ -112,13 +112,12 @@ HandwrittenGraph.createPieChart("#oilpaint-pie-chart", pieData, {
 | width | Number | 960 | Chart width in pixels |
 | height | Number | 500 | Chart height in pixels |
 | margin | Object | { top: 10, right: 10, bottom: 40, left: 50 } | Chart margins |
-| jitter | Number | 1.9 | Amount of jitter for hand-drawn effect |
 | lineColor | String | 'steelblue' | Default line color (can be overridden in dataset) |
 | pointRadius | Number | 4 | Radius of data points |
 | fontFamily | String | 'xkcd' | Font family for text elements |
 | handDrawnEffect | Boolean | true | Enable/disable hand-drawn styling |
 | legendBorder | Boolean | false | Show border around legend |
-| Jitter | Number | 2 | Amount of jitter for hand-drawn effect |
+| handDrawnJitter | Number | 2 | Amount of jitter for hand-drawn effect |
 | valueFormat | Function | d3.format('.1f') | Format function for values in tooltip |
 
 ## Browser Support

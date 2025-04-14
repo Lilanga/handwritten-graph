@@ -83,7 +83,9 @@
         { label: "Administration", value: 10, color: "#4BC0C0" },
       ];
 
-      HandwrittenGraph.createPieChart("#pie-chart-container", pieData);
+      HandwrittenGraph.createPieChart("#pie-chart-container", pieData, {
+        fillStyle: "oilpaint",
+      });
 
       // Donut Chart Example
       const donutData = [
@@ -95,6 +97,7 @@
       HandwrittenGraph.createPieChart("#donut-chart-container", donutData, {
         innerRadius: 80, // Makes it a donut chart
         handDrawnJitter: 1.5, // Slightly less jitter for cleaner look
+        useScribbleFill: false,
       });
     </script>
   </body>
