@@ -1,6 +1,6 @@
 {
   "name": "handwritten-linegraph",
-  "version": "0.1.3",
+  "version": "0.1.4",
   "description": "A simple library to create handwritten-style line graphs and pie charts using D3.js",
   "main": "dist/handwritten-graph.js",
   "module": "dist/handwritten-graph.js",
@@ -30,7 +30,19 @@
     "handwritten",
     "line-graph",
     "graph",
-    "visualization"
+    "visualization",
+    "chart",
+    "pie-chart",
+    "svg",
+    "canvas",
+    "data-visualization",
+    "data-visualization-library",
+    "handwritten-graph",
+    "handwritten-line-graph",
+    "handwritten-pie-chart",
+    "handwritten-chart",
+    "handwritten-visualization",
+    "handwritten-data-visualization"
   ],
   "files": [
     "dist/handwritten-graph.js",
