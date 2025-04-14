@@ -13,7 +13,6 @@ const defaultConfig = {
   width: 960,
   height: 500,
   margin: { top: 10, right: 10, bottom: 40, left: 50 },
-  jitter: 1.9, // Jitter amount for hand-drawn effect
   lineColor: 'steelblue', // Default line color
   pointRadius: 4,
   fontFamily: 'xkcd', // Default font family
@@ -46,7 +45,7 @@ export function createGraph(selector, data, config = {}) {
     handDrawnEffect, handDrawnPoints, handDrawnJitter,
     strokeLinecap, strokeLinejoin, tooltipBgColor, tooltipTextColor,
     tooltipBorderColor, tooltipBorderWidth, tooltipBorderRadius,
-    tooltipOpacity, legendBorder
+    tooltipOpacity, legendBorder, lineColor
   } = settings;
 
   const x = d3.scalePoint()

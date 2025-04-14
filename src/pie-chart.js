@@ -13,11 +13,10 @@ import { createScribblePatternSet, createOilPaintPatternSet } from './scribbleFi
 const defaultConfig = {
     width: 600,           // Increased default width to accommodate legend
     height: 400,          // Default height
-    margin: { top: 20, right: 180, bottom: 20, left: 20 }, // Right margin increased for legend
+    margin: { top: 20, right: 150, bottom: 20, left: 20 }, // Right margin increased for legend
     innerRadius: 0,       // Set > 0 for a donut chart
     padAngle: 0.02,
     cornerRadius: 3,
-    jitter: 1.5,          // Jitter amount for hand-drawn effect
     fontFamily: 'xkcd',   // Default font family
     handDrawnEffect: true, // Toggle for hand-drawn effect
     handDrawnJitter: 2,   // Amount of jitter for hand-drawn effect
@@ -32,8 +31,7 @@ const defaultConfig = {
     legendBorder: true,   // Show border around legend by default
     valueFormat: d => d3.format('.1f')(d), // Format for values
     useScribbleFill: true, // Use scribble fill patterns instead of solid colors
-    fillStyle: 'directional', // Type of fill: 'directional', 'oilpaint'
-    adaptiveText: true    // Automatically adapt text size to fit available space
+    fillStyle: 'directional' // Type of fill: 'directional', 'oilpaint'
 };
 
 /**
@@ -91,7 +89,7 @@ export function createPieChart(selector, data, config = {}) {
     const settings = { ...defaultConfig, ...config };
     const {
         width, height, margin, innerRadius, padAngle, cornerRadius,
-        jitter, fontFamily, handDrawnEffect, handDrawnJitter,
+        fontFamily, handDrawnEffect, handDrawnJitter,
         strokeLinecap, strokeLinejoin, tooltipBgColor, tooltipTextColor,
         tooltipBorderColor, tooltipBorderWidth, tooltipBorderRadius,
         tooltipOpacity, legendBorder, valueFormat, useScribbleFill, fillStyle
