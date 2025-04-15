@@ -98,8 +98,13 @@ export function createPieChart(selector, data, config = {}) {
     // Calculate radius based on available space
     const radius = Math.min(width - margin.left - margin.right, height - margin.top - margin.bottom) / 2;
 
+    // Create container div with scoped class
+    const container = d3.select(selector)
+        .append('div')
+        .attr('class', 'handwritten-graph-container');
+
     // Create SVG
-    const svg = d3.select(selector)
+    const svg = container
         .append('svg')
         .attr('width', width)
         .attr('height', height)

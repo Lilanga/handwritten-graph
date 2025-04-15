@@ -3,14 +3,19 @@
   src: url('../assets/Humor-Sans.ttf');
 }
 
-body {
+/* Scoped library's containers */
+.handwritten-graph-container {
   font-family: 'xkcd', sans-serif;
   font-size: 14px;
-}
-
-.axis path,
-.axis line {
-  fill: none;
-  stroke: #000;
-  shape-rendering: crispEdges;
+  
+  .axis path,
+  .axis line {
+    fill: none;
+    stroke: #000;
+    shape-rendering: crispEdges;
+  }
+  
+  text {
+    font-family: 'xkcd', sans-serif;
+  }
 }

@@ -40,7 +40,7 @@ class XkcdTooltip {
         // Add safety buffer for edge detection (px)
         this.safetyBuffer = 10;
 
-        // Create SVG container
+// Create SVG container
         this.svg = parent.append('svg')
             .attr('class', 'xkcd-tooltip')
             .attr('x', this._getUpLeftX())
@@ -159,7 +159,7 @@ class XkcdTooltip {
         svg.append('text')
             .style('font-size', '15')
             .style('fill', this.strokeColor)
-            .style('font-family', this.fontFamily)
+            .style('font-family', this.fontFamily) // Ensure font is set here 
             .attr('x', 15 + 12)
             .attr('y', 37 + 20 * i + 8)
             .text(item.text);

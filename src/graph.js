@@ -57,7 +57,12 @@ export function createGraph(selector, data, config = {}) {
     .domain([0, d3.max(data.datasets.flatMap(dataset => dataset.data)) * 1.2])
     .range([height, 0]);
 
-  const svg = d3.select(selector)
+    // Create SVG
+  const container = d3.select(selector)
+    .append('div')
+    .attr('class', 'handwritten-graph-container');
+    
+  const svg = container
     .append('svg')
     .attr('width', width + margin.left + margin.right)
     .attr('height', height + margin.top + margin.bottom)
