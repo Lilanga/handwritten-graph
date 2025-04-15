@@ -39,7 +39,7 @@ npm install handwritten-graphs
 Alternatively, you can use the library via CDN.
 
 ```html
-<script src="https://unpkg.com/handwritten-linegraph@0.1.4/dist/handwritten-graph.js"></script>
+<script src="https://unpkg.com/handwritten-linegraph@0.1.5/dist/handwritten-graph.js"></script>
 ```
 
 ## Usage
