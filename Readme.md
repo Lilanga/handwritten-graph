@@ -7,7 +7,7 @@ A simple JavaScript library to create hand-drawn style charts inspired by comics
 ### Example
 
 Here’s some example of a graph generated with this library:
-[sample](https://w6dkjj.csb.app/)
+[sample](https://p63tvz.csb.app)
 
 #### Line charts
 
