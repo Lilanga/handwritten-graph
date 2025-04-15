@@ -7,6 +7,7 @@ A simple JavaScript library to create hand-drawn style charts inspired by comics
 ### Example
 
 Here’s some example of a graph generated with this library:
+[sample](https://w6dkjj.csb.app/)
 
 #### Line charts
 
@@ -38,7 +39,7 @@ npm install handwritten-graphs
 Alternatively, you can use the library via CDN.
 
 ```html
-<script src="https://unpkg.com/handwritten-linegraph@0.1.3/dist/handwritten-graph.js"></script>
+<script src="https://unpkg.com/handwritten-linegraph@0.1.4/dist/handwritten-graph.js"></script>
 ```
 
 ## Usage
